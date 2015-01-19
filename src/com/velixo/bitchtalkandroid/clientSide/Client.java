@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.List;
 
+import android.os.AsyncTask;
+
 import com.velixo.bitchtalkandroid.command.ClientCommandFactory;
 import com.velixo.bitchtalkandroid.command.Command;
 
@@ -34,18 +36,20 @@ public class Client {
 	}
 	
 	public void connect(String ip){
-		try {
-			connection = new Socket(InetAddress.getByName(ip),9513);
-			output = new ObjectOutputStream(connection.getOutputStream());
-			output.flush();
-			input = new ObjectInputStream(connection.getInputStream());
-			if (listenForMessagesThread != null)
-				listenForMessagesThread.stopThread();
-			listenForMessagesThread = new ListenForMessagesThread();
-			listenForMessagesThread.start();
-		} catch (IOException e) {
-			gui.showMessage("I'm afraid I can't let you do that, bitch.");
-		}
+		ConnectTask ct = new ConnectTask(ip);
+		ct.execute();
+//		try {
+//			connection = new Socket(InetAddress.getByName(ip),9513);
+//			output = new ObjectOutputStream(connection.getOutputStream());
+//			output.flush();
+//			input = new ObjectInputStream(connection.getInputStream());
+//			if (listenForMessagesThread != null)
+//				listenForMessagesThread.stopThread();
+//			listenForMessagesThread = new ListenForMessagesThread();
+//			listenForMessagesThread.start();
+//		} catch (IOException e) {
+//			gui.showMessage("I'm afraid I can't let you do that, bitch.");
+//		}
 	}
 	public void send(String message){
 		try {
@@ -117,6 +121,32 @@ public class Client {
 		public void stopThread() {
 			runThread = false;
 		}
+	}
+	
+	private class ConnectTask extends AsyncTask {
+		private String ip;
+		
+		public ConnectTask(String ip) {
+			 this.ip = ip;
+		}
+
+		@Override
+		protected Object doInBackground(Object... params) {
+			try {
+				connection = new Socket(InetAddress.getByName(ip),9513);
+				output = new ObjectOutputStream(connection.getOutputStream());
+				output.flush();
+				input = new ObjectInputStream(connection.getInputStream());
+				if (listenForMessagesThread != null)
+					listenForMessagesThread.stopThread();
+				listenForMessagesThread = new ListenForMessagesThread();
+				listenForMessagesThread.start();
+			} catch (IOException e) {
+				gui.showMessage("I'm afraid I can't let you do that, bitch.");
+			}
+			return null;
+		}
+
 	}
 	
 }

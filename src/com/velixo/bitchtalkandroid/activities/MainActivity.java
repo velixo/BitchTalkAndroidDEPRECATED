@@ -3,19 +3,22 @@ package com.velixo.bitchtalkandroid.activities;
 
 import java.util.List;
 
-import com.velixo.bitchtalkandroid.R;
-import com.velixo.bitchtalkandroid.clientSide.ClientGui;
-
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.velixo.bitchtalkandroid.R;
+import com.velixo.bitchtalkandroid.clientSide.Client;
+import com.velixo.bitchtalkandroid.clientSide.ClientGui;
 
 public class MainActivity extends Activity implements ClientGui {
-	private EditText chatWindow;
+	private TextView chatWindow;
 	private EditText chatInput;
+	private Client client;
 	
 	private boolean notificationSoundMuted = false;
 	
@@ -36,8 +39,11 @@ public class MainActivity extends Activity implements ClientGui {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        chatWindow = (EditText) findViewById(R.id.chatWindow);
+        chatWindow = (TextView) findViewById(R.id.chatWindow);
         chatInput = (EditText) findViewById(R.id.chatInput);
+        client = new Client(this);
+        setMessageSending();
+        
         loadSounds();
     }
     
@@ -52,9 +58,15 @@ public class MainActivity extends Activity implements ClientGui {
     }
     
 	@Override
-	public void showMessage(String m) {
-		chatWindow.append(m + "\n");
-		playNotificationSound();
+	public void showMessage(final String m) {
+		chatWindow.post(new Runnable() {
+
+			@Override
+			public void run() {
+				chatWindow.append(m + "\n");
+				playNotificationSound();
+			}
+		});
 	}
 	
 	private void playNotificationSound() {
@@ -106,5 +118,22 @@ public class MainActivity extends Activity implements ClientGui {
 		default:
 			break;
 		}
+	}
+	
+	private void setMessageSending() { //TODO fix method name
+		chatInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					String message = chatInput.getText().toString();
+					if(!message.equals("")) {
+						client.send(message);
+						chatInput.setText("");
+					}
+					return true;
+				}
+				return false;
+			}
+		});
 	}
 }
