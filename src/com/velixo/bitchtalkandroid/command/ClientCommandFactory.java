@@ -8,7 +8,6 @@ import com.velixo.bitchtalkandroid.command.clientside.*;
 
 
 public class ClientCommandFactory {
-	public final static String TOGGLEMUTE = "/togglemute";
 	public final static String MUTE = "/mute";
 	public final static String UNMUTE = "/unmute";
 	public final static String CONNECT = "/connect";
@@ -42,9 +41,6 @@ public class ClientCommandFactory {
 		
 		
 		switch (st.nextToken()) {
-		case TOGGLEMUTE:
-			return new ToggleMute(clientGui);
-			
 		case MUTE:
 			return new Mute(clientGui);
 			
