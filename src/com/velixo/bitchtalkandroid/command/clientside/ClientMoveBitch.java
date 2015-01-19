@@ -4,10 +4,10 @@ import com.velixo.bitchtalkandroid.clientSide.ClientGui;
 import com.velixo.bitchtalkandroid.command.Command;
 
 
-public class MoveBitch implements Command {
+public class ClientMoveBitch implements Command {
 	private ClientGui gui;
 	
-	public MoveBitch(ClientGui gui) {
+	public ClientMoveBitch(ClientGui gui) {
 		this.gui = gui;
 	}
 

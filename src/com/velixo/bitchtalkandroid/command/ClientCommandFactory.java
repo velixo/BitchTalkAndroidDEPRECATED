@@ -59,7 +59,7 @@ public class ClientCommandFactory {
 			return new ClientWhatsGoingOn(clientGui);
 			
 		case MOVEBITCHGETOUTDAWAY:
-			return new MoveBitch(clientGui);
+			return new ClientMoveBitch(clientGui);
 		
 		case CONNECT:
 			if (client.connected())
