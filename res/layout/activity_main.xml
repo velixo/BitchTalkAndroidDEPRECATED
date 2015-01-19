@@ -10,16 +10,17 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/chatInput"
-        android:layout_marginBottom="24dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" >
+        android:layout_alignParentTop="true"
+        android:background="#222222" >
         
 	    <TextView
 	        android:id="@+id/chatWindow"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:ems="10" />
+	        android:ems="10"
+	        android:textColor="#DDDDDD" />
     </ScrollView>
     
     <EditText
@@ -30,8 +31,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="24dp"
-        android:ems="10" >
+        android:ems="10"
+        android:background="#333333"
+        android:textColor="#FFFFFF" >
 
         <requestFocus />
     </EditText>
