@@ -48,7 +48,6 @@ public class MainActivity extends Activity implements ClientGui {
         chatInput = (TextView) findViewById(R.id.chatInput);
         client = new Client(this);
         setMessageSending();
-//        chatWindow.setMovementMethod(new ScrollingMovementMethod());
         loadSounds();
     }
     
@@ -73,7 +72,6 @@ public class MainActivity extends Activity implements ClientGui {
 				if(atBottom)
 					chatScroll.scrollTo(0, chatWindow.getHeight());
 				playSound(NOTIFICATION);
-//				playNotificationSound();
 			}
 		});
 	}
@@ -120,7 +118,7 @@ public class MainActivity extends Activity implements ClientGui {
 			break;
 			
 		case NOTIFICATION:
-//			if (notificationSoundMuted)
+			if (notificationSoundMuted)
 				notificationSound.start();
 		default:
 			break;
