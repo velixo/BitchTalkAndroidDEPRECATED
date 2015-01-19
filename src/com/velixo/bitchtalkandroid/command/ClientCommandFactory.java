@@ -17,6 +17,8 @@ public class ClientCommandFactory {
 	public final static String CLIENTWOOLOOLOO = "/:woolooloo";
 	public final static String CLIENTBOSSASSBITCH = "/:bossassbitch";
 	public final static String CLIENTWHATSGOINGON = "/:whatsgoingon";
+	public final static String CLIENTOPEN = "/:open";
+	public final static String CLIENTCELEBRATE = "/:celebrate";
 	public final static String MOVEBITCHGETOUTDAWAY = "/:movebitchgetoutdaway";
 	
 	private Client client;
@@ -58,6 +60,12 @@ public class ClientCommandFactory {
 		case CLIENTWHATSGOINGON:
 			return new ClientWhatsGoingOn(clientGui);
 			
+		case CLIENTOPEN:
+			return new ClientOpen(clientGui);
+			
+		case CLIENTCELEBRATE:
+			return new ClientCelebrate(clientGui);
+
 		case MOVEBITCHGETOUTDAWAY:
 			return new ClientMoveBitch(clientGui);
 		

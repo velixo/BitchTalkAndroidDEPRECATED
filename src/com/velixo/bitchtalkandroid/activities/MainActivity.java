@@ -32,12 +32,17 @@ public class MainActivity extends Activity implements ClientGui {
 	private MediaPlayer bossAssBitchSound;
 	private MediaPlayer whatsGoingSound;
 	private MediaPlayer moveBitchSound;
+	private MediaPlayer openSound;
+	private MediaPlayer celebrateSound;
 	
 	public final String WOOLOOLOO = "woolooloo";
 	public final String BOSSASSBITCH = "bossassbitch";
 	public final String WHATSGOINGON = "whatsgoingon";
 	public final String MOVEBITCH = "movebitchgetoutdaway";
-	private final String NOTIFICATION = "notification";
+	public final String OPEN = "open";
+	public final String CELEBRATE = "celebrate";
+	public final String NOTIFICATION = "notification";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,7 @@ public class MainActivity extends Activity implements ClientGui {
     	bossAssBitchSound = MediaPlayer.create(this, R.raw.bossassbitch);
     	whatsGoingSound = MediaPlayer.create(this, R.raw.whatsgoingon);
     	moveBitchSound = MediaPlayer.create(this, R.raw.movebitchgetoutdaway);
+    	openSound = MediaPlayer.create(this, R.raw.heresjohnny);
     }
     
 	@Override
@@ -77,9 +83,17 @@ public class MainActivity extends Activity implements ClientGui {
 	}
 	
 	@Override
-	public void showSilentMessage(String m) {
-		chatWindow.append(m + "\n");
-		getChatScrollAtBottom();
+	public void showSilentMessage(final String m) {
+		chatWindow.post(new Runnable() {
+
+			@Override
+			public void run() {
+				boolean atBottom = getChatScrollAtBottom();
+				chatWindow.append(m + "\n");
+				if (atBottom)
+					chatScroll.scrollTo(0, chatWindow.getHeight());
+			}
+		});
 	}
 
 	@Override
@@ -120,6 +134,16 @@ public class MainActivity extends Activity implements ClientGui {
 		case NOTIFICATION:
 			if (notificationSoundMuted)
 				notificationSound.start();
+			break;
+		
+		case OPEN:
+			openSound.start();
+			break;
+			
+		case CELEBRATE:
+			celebrateSound.start();
+			break;
+		
 		default:
 			break;
 		}
