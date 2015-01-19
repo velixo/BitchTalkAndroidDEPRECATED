@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -44,7 +45,7 @@ public class MainActivity extends Activity implements ClientGui {
         chatInput = (EditText) findViewById(R.id.chatInput);
         client = new Client(this);
         setMessageSending();
-        
+        chatWindow.setMovementMethod(new ScrollingMovementMethod());
         loadSounds();
     }
     
@@ -65,6 +66,7 @@ public class MainActivity extends Activity implements ClientGui {
 			@Override
 			public void run() {
 				chatWindow.append(m + "\n");
+				updateChatWindowScroll();
 				playSound(NOTIFICATION);
 //				playNotificationSound();
 			}
@@ -74,6 +76,7 @@ public class MainActivity extends Activity implements ClientGui {
 	@Override
 	public void showSilentMessage(String m) {
 		chatWindow.append(m + "\n");
+		updateChatWindowScroll();
 	}
 
 	@Override
@@ -134,5 +137,10 @@ public class MainActivity extends Activity implements ClientGui {
 				return false;
 			}
 		});
+	}
+	
+	private void updateChatWindowScroll() {
+		//if currently close to latest recieved message
+			//scroll to latest recieved message
 	}
 }
