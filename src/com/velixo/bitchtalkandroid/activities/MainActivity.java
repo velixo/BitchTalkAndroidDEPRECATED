@@ -34,6 +34,7 @@ public class MainActivity extends Activity implements ClientGui {
 	public final String BOSSASSBITCH = "bossassbitch";
 	public final String WHATSGOINGON = "whatsgoingon";
 	public final String MOVEBITCH = "movebitchgetoutdaway";
+	private final String NOTIFICATION = "notification";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,17 +65,12 @@ public class MainActivity extends Activity implements ClientGui {
 			@Override
 			public void run() {
 				chatWindow.append(m + "\n");
-				playNotificationSound();
+				playSound(NOTIFICATION);
+//				playNotificationSound();
 			}
 		});
 	}
 	
-	private void playNotificationSound() {
-		if (notificationSoundMuted) {
-			notificationSound.start();
-		}
-	}
-
 	@Override
 	public void showSilentMessage(String m) {
 		chatWindow.append(m + "\n");
@@ -114,7 +110,10 @@ public class MainActivity extends Activity implements ClientGui {
 		case MOVEBITCH:
 			moveBitchSound.start();
 			break;
-
+			
+		case NOTIFICATION:
+			if (notificationSoundMuted)
+				notificationSound.start();
 		default:
 			break;
 		}
