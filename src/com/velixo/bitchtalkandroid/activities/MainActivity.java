@@ -6,10 +6,11 @@ import java.util.List;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.velixo.bitchtalkandroid.R;
@@ -17,8 +18,9 @@ import com.velixo.bitchtalkandroid.clientSide.Client;
 import com.velixo.bitchtalkandroid.clientSide.ClientGui;
 
 public class MainActivity extends Activity implements ClientGui {
+	private ScrollView chatScroll;
 	private TextView chatWindow;
-	private EditText chatInput;
+	private TextView chatInput;
 	private Client client;
 	
 	private boolean notificationSoundMuted = false;
@@ -41,11 +43,12 @@ public class MainActivity extends Activity implements ClientGui {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        chatWindow = (TextView) findViewById(R.id.chatWindow);
-        chatInput = (EditText) findViewById(R.id.chatInput);
+        chatScroll = (ScrollView) findViewById(R.id.chatScroll);
+        chatWindow = (TextView) chatScroll.getChildAt(0);
+        chatInput = (TextView) findViewById(R.id.chatInput);
         client = new Client(this);
         setMessageSending();
-        chatWindow.setMovementMethod(new ScrollingMovementMethod());
+//        chatWindow.setMovementMethod(new ScrollingMovementMethod());
         loadSounds();
     }
     
@@ -65,8 +68,10 @@ public class MainActivity extends Activity implements ClientGui {
 
 			@Override
 			public void run() {
+				boolean atBottom = getChatScrollAtBottom();
 				chatWindow.append(m + "\n");
-				updateChatWindowScroll();
+				if(atBottom)
+					chatScroll.scrollTo(0, chatWindow.getHeight());
 				playSound(NOTIFICATION);
 //				playNotificationSound();
 			}
@@ -76,7 +81,7 @@ public class MainActivity extends Activity implements ClientGui {
 	@Override
 	public void showSilentMessage(String m) {
 		chatWindow.append(m + "\n");
-		updateChatWindowScroll();
+		getChatScrollAtBottom();
 	}
 
 	@Override
@@ -115,7 +120,7 @@ public class MainActivity extends Activity implements ClientGui {
 			break;
 			
 		case NOTIFICATION:
-			if (notificationSoundMuted)
+//			if (notificationSoundMuted)
 				notificationSound.start();
 		default:
 			break;
@@ -139,8 +144,12 @@ public class MainActivity extends Activity implements ClientGui {
 		});
 	}
 	
-	private void updateChatWindowScroll() {
-		//if currently close to latest recieved message
-			//scroll to latest recieved message
+	private boolean getChatScrollAtBottom() {
+		int margin = 100;
+		int diff = chatWindow.getBottom() - (chatScroll.getHeight() + chatScroll.getScrollY());
+		Log.d("", "diff = " + diff);
+		if(diff <= margin)
+			return true;
+		return false;
 	}
 }

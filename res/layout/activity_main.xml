@@ -4,17 +4,23 @@
     android:layout_height="match_parent"
     tools:context="${relativePackage}.${activityClass}" >
     
-    <TextView
-        android:id="@+id/chatWindow"
+    <ScrollView
+        android:id="@+id/chatScroll"
         android:scrollbars="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_above="@+id/chatInput"
         android:layout_marginBottom="24dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:ems="10" />
+        android:layout_alignParentTop="true" >
+        
+	    <TextView
+	        android:id="@+id/chatWindow"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:ems="10" />
+    </ScrollView>
     
     <EditText
         android:id="@+id/chatInput"
