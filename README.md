@@ -7,3 +7,4 @@ Only a client app though, a BitchTalk server has to be set up on a desktop to be
 
 Link to the original BitchTalk project: https://github.com/velixo/BitchTalk
 Link to the BitchTalk Trello: https://trello.com/b/yag3f0C1/bitchtalk
+a
