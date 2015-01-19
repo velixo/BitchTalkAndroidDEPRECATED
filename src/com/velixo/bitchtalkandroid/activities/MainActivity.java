@@ -147,7 +147,6 @@ public class MainActivity extends Activity implements ClientGui {
 	private boolean getChatScrollAtBottom() {
 		int margin = 100;
 		int diff = chatWindow.getBottom() - (chatScroll.getHeight() + chatScroll.getScrollY());
-		Log.d("", "diff = " + diff);
 		if(diff <= margin)
 			return true;
 		return false;
