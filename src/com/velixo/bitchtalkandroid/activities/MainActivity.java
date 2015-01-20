@@ -6,9 +6,7 @@ import java.util.List;
 import android.app.Activity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -16,6 +14,7 @@ import android.widget.TextView;
 import com.velixo.bitchtalkandroid.R;
 import com.velixo.bitchtalkandroid.clientSide.Client;
 import com.velixo.bitchtalkandroid.clientSide.ClientGui;
+import com.velixo.bitchtalkandroid.statics.StaticVariables;
 
 public class MainActivity extends Activity implements ClientGui {
 	private ScrollView chatScroll;
@@ -35,13 +34,13 @@ public class MainActivity extends Activity implements ClientGui {
 	private MediaPlayer openSound;
 	private MediaPlayer celebrateSound;
 	
-	public final String WOOLOOLOO = "woolooloo";
-	public final String BOSSASSBITCH = "bossassbitch";
-	public final String WHATSGOINGON = "whatsgoingon";
-	public final String MOVEBITCH = "movebitchgetoutdaway";
-	public final String OPEN = "open";
-	public final String CELEBRATE = "celebrate";
-	public final String NOTIFICATION = "notification";
+	public final String WOOLOOLOO = StaticVariables.WOOLOOLOO;
+	public final String BOSSASSBITCH = StaticVariables.BOSSASSBITCH;
+	public final String WHATSGOINGON = StaticVariables.WHATSGOINGON;
+	public final String MOVEBITCH = StaticVariables.SERVERMOVEBITCHGETOUTDAWAY;
+	public final String OPEN = StaticVariables.OPEN;
+	public final String CELEBRATE = StaticVariables.CELEBRATE;
+	private final String NOTIFICATION = "notification";
 
 
     @Override

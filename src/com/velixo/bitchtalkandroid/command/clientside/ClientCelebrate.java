@@ -2,6 +2,7 @@ package com.velixo.bitchtalkandroid.command.clientside;
 
 import com.velixo.bitchtalkandroid.clientSide.ClientGui;
 import com.velixo.bitchtalkandroid.command.Command;
+import com.velixo.bitchtalkandroid.statics.StaticVariables;
 
 public class ClientCelebrate implements Command {
 	private ClientGui gui;
@@ -12,7 +13,7 @@ public class ClientCelebrate implements Command {
 
 	@Override
 	public void run() {
-		gui.playSound("celebrate");
+		gui.playSound(StaticVariables.CELEBRATE);
 	}
 
 }

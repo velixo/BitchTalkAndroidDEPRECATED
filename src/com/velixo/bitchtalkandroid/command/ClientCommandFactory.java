@@ -4,21 +4,31 @@ import java.util.StringTokenizer;
 
 import com.velixo.bitchtalkandroid.clientSide.Client;
 import com.velixo.bitchtalkandroid.clientSide.ClientGui;
-import com.velixo.bitchtalkandroid.command.clientside.*;
+import com.velixo.bitchtalkandroid.command.clientside.AlreadyConnected;
+import com.velixo.bitchtalkandroid.command.clientside.ClientBossAssBitch;
+import com.velixo.bitchtalkandroid.command.clientside.ClientCelebrate;
+import com.velixo.bitchtalkandroid.command.clientside.ClientMoveBitch;
+import com.velixo.bitchtalkandroid.command.clientside.ClientOpen;
+import com.velixo.bitchtalkandroid.command.clientside.ClientWhatsGoingOn;
+import com.velixo.bitchtalkandroid.command.clientside.ClientWoolooloo;
+import com.velixo.bitchtalkandroid.command.clientside.Connect;
+import com.velixo.bitchtalkandroid.command.clientside.Mute;
+import com.velixo.bitchtalkandroid.command.clientside.Unmute;
+import com.velixo.bitchtalkandroid.statics.StaticVariables;
 
 
 public class ClientCommandFactory {
-	public final static String MUTE = "/mute";
-	public final static String UNMUTE = "/unmute";
-	public final static String CONNECT = "/connect";
+	public final static String HELP = StaticVariables.HELP;
+	public final static String MUTE = StaticVariables.MUTE;
+	public final static String UNMUTE = StaticVariables.UNMUTE;
+	public final static String CONNECT = StaticVariables.CONNECT;
 	
-	//Commands that begin with "/:" can only come from server.
-	public final static String CLIENTWOOLOOLOO = "/:woolooloo";
-	public final static String CLIENTBOSSASSBITCH = "/:bossassbitch";
-	public final static String CLIENTWHATSGOINGON = "/:whatsgoingon";
-	public final static String CLIENTOPEN = "/:open";
-	public final static String CLIENTCELEBRATE = "/:celebrate";
-	public final static String MOVEBITCHGETOUTDAWAY = "/:movebitchgetoutdaway";
+	public final static String SERVERWOOLOOLOO = StaticVariables.SERVERWOOLOOLOO;
+	public final static String SERVERBOSSASSBITCH = StaticVariables.SERVERBOSSASSBITCH;
+	public final static String SERVERWHATSGOINGON = StaticVariables.SERVERWHATSGOINGON;
+	public final static String SERVERMOVEBITCHGETOUTDAWAY = StaticVariables.SERVERMOVEBITCHGETOUTDAWAY;
+	public final static String SERVEROPEN = StaticVariables.SERVEROPEN;
+	public final static String SERVERCELEBRATE = StaticVariables.SERVERCELEBRATE;
 	
 	private Client client;
 	private ClientGui clientGui;
@@ -47,22 +57,22 @@ public class ClientCommandFactory {
 		case UNMUTE:
 			return new Unmute(clientGui);
 			
-		case CLIENTWOOLOOLOO:
+		case SERVERWOOLOOLOO:
 			return new ClientWoolooloo(clientGui);
 			
-		case CLIENTBOSSASSBITCH:
+		case SERVERBOSSASSBITCH:
 			return new ClientBossAssBitch(clientGui);
 			
-		case CLIENTWHATSGOINGON:
+		case SERVERWHATSGOINGON:
 			return new ClientWhatsGoingOn(clientGui);
 			
-		case CLIENTOPEN:
+		case SERVEROPEN:
 			return new ClientOpen(clientGui);
 			
-		case CLIENTCELEBRATE:
+		case SERVERCELEBRATE:
 			return new ClientCelebrate(clientGui);
 
-		case MOVEBITCHGETOUTDAWAY:
+		case SERVERMOVEBITCHGETOUTDAWAY:
 			return new ClientMoveBitch(clientGui);
 		
 		case CONNECT:
