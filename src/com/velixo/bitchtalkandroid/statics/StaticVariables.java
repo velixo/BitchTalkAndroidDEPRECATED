@@ -8,6 +8,7 @@ public abstract class StaticVariables {
 	public final static String SERVERMOVEBITCHGETOUTDAWAY = "/:movebitchgetoutdaway";
 	public final static String SERVEROPEN = "/:open";
 	public final static String SERVERCELEBRATE = "/:celebrate";
+	public final static String SERVERDOYOUSPEAKIT = "/:doyouspeakit";
 	
 	/** Variables used when a command is sent from a client to the server*/
 	public final static String HELP = "/help";
@@ -24,6 +25,7 @@ public abstract class StaticVariables {
 	public final static String BOSSASSBITCH = "/bossassbitch";
 	public final static String OPEN= "/open";
 	public final static String CELEBRATE = "/celebrate";
+	public final static String DOYOUSPEAKIT = "/doyouspeakit"; 
 	
 //	public final static String BITCHSAYMYNAME = "/bitchsaymyname";
 //	public final static String GAFFELTRUCK = "/gaffeltruck";

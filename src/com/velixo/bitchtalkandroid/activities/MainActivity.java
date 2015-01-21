@@ -1,11 +1,14 @@
 package com.velixo.bitchtalkandroid.activities;
 
 
+import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ScrollView;
@@ -14,7 +17,6 @@ import android.widget.TextView;
 import com.velixo.bitchtalkandroid.R;
 import com.velixo.bitchtalkandroid.clientSide.Client;
 import com.velixo.bitchtalkandroid.clientSide.ClientGui;
-import com.velixo.bitchtalkandroid.statics.StaticVariables;
 
 public class MainActivity extends Activity implements ClientGui {
 	private ScrollView chatScroll;
@@ -22,25 +24,9 @@ public class MainActivity extends Activity implements ClientGui {
 	private TextView chatInput;
 	private Client client;
 	
-	private boolean notificationSoundMuted = false;
+	private boolean notificationMuted = false;
 	
-	private MediaPlayer notificationSound;
-	private MediaPlayer userJoinedSound;
-	private MediaPlayer userLeftSound;
-	private MediaPlayer wooloolooSound;
-	private MediaPlayer bossAssBitchSound;
-	private MediaPlayer whatsGoingSound;
-	private MediaPlayer moveBitchSound;
-	private MediaPlayer openSound;
-	private MediaPlayer celebrateSound;
-	
-	public final String WOOLOOLOO = StaticVariables.WOOLOOLOO;
-	public final String BOSSASSBITCH = StaticVariables.BOSSASSBITCH;
-	public final String WHATSGOINGON = StaticVariables.WHATSGOINGON;
-	public final String MOVEBITCH = StaticVariables.SERVERMOVEBITCHGETOUTDAWAY;
-	public final String OPEN = StaticVariables.OPEN;
-	public final String CELEBRATE = StaticVariables.CELEBRATE;
-	private final String NOTIFICATION = "notification";
+	private final String NOTIFICATION = "other_notificationsound.wav";
 
 
     @Override
@@ -50,21 +36,10 @@ public class MainActivity extends Activity implements ClientGui {
         chatScroll = (ScrollView) findViewById(R.id.chatScroll);
         chatWindow = (TextView) chatScroll.getChildAt(0);
         chatInput = (TextView) findViewById(R.id.chatInput);
-        client = new Client(this);
-        setMessageSending();
-        loadSounds();
+        client = new Client(this, this);
+        setChatInputActionListener();
     }
     
-    private void loadSounds() {
-    	notificationSound = MediaPlayer.create(this, R.raw.notificationsound);
-    	userJoinedSound = MediaPlayer.create(this, R.raw.joinchatsound);
-    	userLeftSound = MediaPlayer.create(this, R.raw.leavechatsound);
-    	wooloolooSound = MediaPlayer.create(this, R.raw.woolooloo);
-    	bossAssBitchSound = MediaPlayer.create(this, R.raw.bossassbitch);
-    	whatsGoingSound = MediaPlayer.create(this, R.raw.whatsgoingon);
-    	moveBitchSound = MediaPlayer.create(this, R.raw.movebitchgetoutdaway);
-    	openSound = MediaPlayer.create(this, R.raw.heresjohnny);
-    }
     
 	@Override
 	public void showMessage(final String m) {
@@ -97,58 +72,39 @@ public class MainActivity extends Activity implements ClientGui {
 
 	@Override
 	public void setMuteNotificationSound(boolean b) {
-		notificationSoundMuted = b;
+		notificationMuted = b;
 	}
 
 	@Override
 	public boolean getNotificationSoundMuted() {
-		return notificationSoundMuted;
+		return notificationMuted;
 	}
 
 	@Override
 	public void updateUsersWindow(List<String> usersInConvo) {
-		// TODO Auto-generated method stub
+		// TODO implement this
 		
 	}
 
 	@Override
-	public void playSound(String soundName) {
-		switch (soundName) {
-		case WOOLOOLOO:
-			wooloolooSound.start();
-			break;
-			
-		case BOSSASSBITCH:
-			bossAssBitchSound.start();
-			break;
-			
-		case WHATSGOINGON:
-			whatsGoingSound.start();
-			break;
-			
-		case MOVEBITCH:
-			moveBitchSound.start();
-			break;
-			
-		case NOTIFICATION:
-			if (notificationSoundMuted)
-				notificationSound.start();
-			break;
-		
-		case OPEN:
-			openSound.start();
-			break;
-			
-		case CELEBRATE:
-			celebrateSound.start();
-			break;
-		
-		default:
-			break;
+	public void playSound(String soundFileName) {
+		Log.d("", "playSound: " + soundFileName);
+		try {
+			if(!soundFileName.equals(NOTIFICATION) || !notificationMuted) {
+				AssetFileDescriptor afd;
+				afd = getAssets().openFd("sounds/" + soundFileName);
+				MediaPlayer player = new MediaPlayer();
+				player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+				player.prepare();
+				player.start();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			showSilentMessage("Bitch, you aint even got " + soundFileName);
 		}
 	}
 	
-	private void setMessageSending() { //TODO fix method name
+	private void setChatInputActionListener() {
 		chatInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

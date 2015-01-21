@@ -1,16 +1,15 @@
 package com.velixo.bitchtalkandroid.command;
 
+import java.io.IOException;
 import java.util.StringTokenizer;
+
+import android.content.Context;
+import android.util.Log;
 
 import com.velixo.bitchtalkandroid.clientSide.Client;
 import com.velixo.bitchtalkandroid.clientSide.ClientGui;
 import com.velixo.bitchtalkandroid.command.clientside.AlreadyConnected;
-import com.velixo.bitchtalkandroid.command.clientside.ClientBossAssBitch;
-import com.velixo.bitchtalkandroid.command.clientside.ClientCelebrate;
-import com.velixo.bitchtalkandroid.command.clientside.ClientMoveBitch;
-import com.velixo.bitchtalkandroid.command.clientside.ClientOpen;
-import com.velixo.bitchtalkandroid.command.clientside.ClientWhatsGoingOn;
-import com.velixo.bitchtalkandroid.command.clientside.ClientWoolooloo;
+import com.velixo.bitchtalkandroid.command.clientside.ClientSound;
 import com.velixo.bitchtalkandroid.command.clientside.Connect;
 import com.velixo.bitchtalkandroid.command.clientside.Mute;
 import com.velixo.bitchtalkandroid.command.clientside.Unmute;
@@ -23,19 +22,15 @@ public class ClientCommandFactory {
 	public final static String UNMUTE = StaticVariables.UNMUTE;
 	public final static String CONNECT = StaticVariables.CONNECT;
 	
-	public final static String SERVERWOOLOOLOO = StaticVariables.SERVERWOOLOOLOO;
-	public final static String SERVERBOSSASSBITCH = StaticVariables.SERVERBOSSASSBITCH;
-	public final static String SERVERWHATSGOINGON = StaticVariables.SERVERWHATSGOINGON;
-	public final static String SERVERMOVEBITCHGETOUTDAWAY = StaticVariables.SERVERMOVEBITCHGETOUTDAWAY;
-	public final static String SERVEROPEN = StaticVariables.SERVEROPEN;
-	public final static String SERVERCELEBRATE = StaticVariables.SERVERCELEBRATE;
 	
 	private Client client;
 	private ClientGui clientGui;
+	private Context context;
 	
-	public ClientCommandFactory(ClientGui cg, Client c) {
+	public ClientCommandFactory(ClientGui cg, Client c, Context cont) {
 		clientGui = cg;
 		client = c;
+		context = cont;
 		
 	}
 	public boolean canBuild(String in){
@@ -51,30 +46,13 @@ public class ClientCommandFactory {
 		
 		
 		switch (st.nextToken()) {
+		
 		case MUTE:
 			return new Mute(clientGui);
 			
 		case UNMUTE:
 			return new Unmute(clientGui);
 			
-		case SERVERWOOLOOLOO:
-			return new ClientWoolooloo(clientGui);
-			
-		case SERVERBOSSASSBITCH:
-			return new ClientBossAssBitch(clientGui);
-			
-		case SERVERWHATSGOINGON:
-			return new ClientWhatsGoingOn(clientGui);
-			
-		case SERVEROPEN:
-			return new ClientOpen(clientGui);
-			
-		case SERVERCELEBRATE:
-			return new ClientCelebrate(clientGui);
-
-		case SERVERMOVEBITCHGETOUTDAWAY:
-			return new ClientMoveBitch(clientGui);
-		
 		case CONNECT:
 			if (client.connected())
 				return new AlreadyConnected(clientGui);
@@ -84,7 +62,35 @@ public class ClientCommandFactory {
 				return new NotACommand(clientGui);
 		
 		default:
+			Log.d("", "build: default. input = " + input);
+			if(isServerCommand(input)) {
+				Log.d("", "isServerCommand");
+				if(isSound(input)) {
+					String soundName = input.replace("/:", "") + ".wav";
+					return new ClientSound(clientGui, soundName);
+				}
+			}
 			return new NotACommand(clientGui);
+		}
+	}
+	
+	private boolean isServerCommand(String input) {
+		return (input.charAt(0)=='/' && input.charAt(1)==':');
+	}
+	
+	private boolean isSound(String input) {
+		String soundName = input.replace("/:", "");
+		String adminSoundName = input.replace("/:", "admin_");
+		try {
+			String[] sounds = context.getAssets().list("sounds");
+			for (String sound : sounds) {
+				if(sound.equals(soundName + ".wav") || sound.equals(adminSoundName + ".wav"))
+					return true;
+			}
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 	
