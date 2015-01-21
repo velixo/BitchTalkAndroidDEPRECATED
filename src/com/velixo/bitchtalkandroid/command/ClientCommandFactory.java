@@ -11,6 +11,7 @@ import com.velixo.bitchtalkandroid.clientSide.ClientGui;
 import com.velixo.bitchtalkandroid.command.clientside.AlreadyConnected;
 import com.velixo.bitchtalkandroid.command.clientside.ClientSound;
 import com.velixo.bitchtalkandroid.command.clientside.Connect;
+import com.velixo.bitchtalkandroid.command.clientside.Help;
 import com.velixo.bitchtalkandroid.command.clientside.Mute;
 import com.velixo.bitchtalkandroid.command.clientside.Unmute;
 import com.velixo.bitchtalkandroid.statics.StaticVariables;
@@ -46,6 +47,8 @@ public class ClientCommandFactory {
 		
 		
 		switch (st.nextToken()) {
+		case HELP:
+			return new Help(clientGui, context);
 		
 		case MUTE:
 			return new Mute(clientGui);
