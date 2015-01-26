@@ -1,3 +1,8 @@
+DEPRECATED, NEW ANDROID PROJECT IS AT:
+======================================
+
+https://github.com/velixo/BitchTalkAndroid
+
 BitchTalkAndroid
 ================
 
